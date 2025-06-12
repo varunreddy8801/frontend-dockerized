@@ -1,0 +1,15 @@
+services:
+
+  app:
+    build: .
+    container_name: ${IMAGE_NAME}
+    env_file: .env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./${REACT_PROJECT_NAME}:/app
+    stdin_open: true
+    tty: true
+
+volumes:
+  node_modules:
