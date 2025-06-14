@@ -24,11 +24,11 @@ if [ -f "$PROJECT_DIR/package.json" ]; then
         DETECTED_PORT="5173"
     else
         FRAMEWORK="unknown"
-        DETECTED_PORT="5173"
+        DETECTED_PORT="8080"
     fi
 else
     FRAMEWORK="none"
-    DETECTED_PORT="80"
+    DETECTED_PORT="8080"
 fi
 
 echo "DETECTED_FRAMEWORK=$FRAMEWORK"

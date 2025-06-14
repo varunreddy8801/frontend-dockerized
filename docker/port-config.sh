@@ -17,10 +17,10 @@ detect_framework_and_port() {
         elif grep -q '"vite"' package.json; then
             echo "vite:5173"
         else
-            echo "unknown:5173"
+            echo "unknown:8080"
         fi
     else
-        echo "unknown:5173"
+        echo "unknown:8080"
     fi
 }
 
