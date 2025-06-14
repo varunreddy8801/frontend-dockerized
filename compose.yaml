@@ -1,7 +1,10 @@
 services:
 
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${IMAGE_NAME}
     container_name: ${IMAGE_NAME}
     env_file: .env
     ports:
