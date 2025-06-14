@@ -12,7 +12,7 @@ help:	## Show this help
 
 build:	## Build dockers from docker compose
 	@START=$$(date +%s); \
-	mkdir ${REACT_PROJECT_NAME}; \
+	if [ ! -d "${PROJECT_NAME}" ]; then mkdir ${PROJECT_NAME}; fi; \
 	docker compose \
 	build \
 	--build-arg REACT_PROJECT_NAME=${REACT_PROJECT_NAME} \
@@ -24,7 +24,7 @@ build:	## Build dockers from docker compose
 
 build-cached:	## Build dockers from docker compose with cache
 	@START=$$(date +%s); \
-	mkdir ${REACT_PROJECT_NAME}; \
+	if [ ! -d "${PROJECT_NAME}" ]; then mkdir ${PROJECT_NAME}; fi; \
 	docker compose \
 	build \
 	--build-arg REACT_PROJECT_NAME=${REACT_PROJECT_NAME} \
