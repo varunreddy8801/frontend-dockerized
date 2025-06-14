@@ -5,11 +5,13 @@ services:
     container_name: ${IMAGE_NAME}
     env_file: .env
     ports:
-      - "3000:3000"
+      - "${PORT_HOST}:${PORT_CONTAINER}"
     volumes:
-      - ./${REACT_PROJECT_NAME}:/app
+      - ./${PROJECT_NAME}:/app
     stdin_open: true
     tty: true
+    environment:
+      - PORT=${PORT_CONTAINER}
 
 volumes:
   node_modules:

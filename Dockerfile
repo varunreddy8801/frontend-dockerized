@@ -1,13 +1,16 @@
 # Fetching the latest node image on alpine linux
-FROM node:alpine AS development
+FROM node:lts-alpine AS development
 
 # Declaring env
-ARG REACT_PROJECT_NAME
+ARG PROJECT_NAME
 ARG NODE_ENV
-RUN test -n "${REACT_PROJECT_NAME}}" || (echo "Build argument REACT_PROJECT_NAME needs to be set and non-empty." && false)
+ARG PORT_HOST
+RUN test -n "${PROJECT_NAME}}" || (echo "Build argument PROJECT_NAME needs to be set and non-empty." && false)
+RUN test -n "${PORT_HOST}}" || (echo "Build argument PORT_HOST needs to be set and non-empty." && false)
 RUN test -n "${NODE_ENV}" || (echo "Build argument NODE_ENV needs to be set and non-empty." && false)
-ENV REACT_PROJECT_NAME=${REACT_PROJECT_NAME}
+ENV PROJECT_NAME=${PROJECT_NAME}
 ENV NODE_ENV=${NODE_ENV}
+ENV PORT_HOST=${PORT_HOST}
 
 # Create a user with uid 1000 and gid 1000
 RUN deluser --remove-home node || true && \
@@ -20,14 +23,19 @@ WORKDIR /app
 # Change ownership of the app directory to the appuser
 RUN chown -R appuser:appgroup /app
 
+# Copy the entrypoint script first and make it executable
+COPY --chown=appuser:appgroup docker/entrypoint.sh /entrypoint.sh
+COPY --chown=appuser:appgroup docker/port-config.sh /port-config.sh
+RUN chmod +x /entrypoint.sh /port-config.sh
+
 # Switch to the non-root user
 USER appuser
 
 # Copy the rest of your application files
-COPY --chown=appuser:appgroup ./${REACT_PROJECT_NAME}* .
+COPY --chown=appuser:appgroup ./${PROJECT_NAME}* .
 
 # Expose the port your app runs on
-EXPOSE 3000
+EXPOSE ${PORT_HOST}
 
-# Default command
-CMD ["npm", "run", "dev"]
+# Docker entrypoint and command
+ENTRYPOINT [ "/entrypoint.sh" ]
