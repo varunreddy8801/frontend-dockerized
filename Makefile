@@ -23,7 +23,8 @@ help:	## Show this help
 	@echo "  make init-next   - Next.js with App Router"
 	@echo "  make init-react  - React with React Router v7"
 	@echo "  make init-expo   - Expo for React Native"
-	@echo "  make init-vue    - Vue.js application"
+	@echo "  make init-vue    - Vue application"
+	@echo "  make init-vite   - Vite application"
 
 
 build:	## Build dockers from docker compose
@@ -51,33 +52,33 @@ build-smart:	## Build with framework detection (used after project init)
 	STOP=$$(date +%s); \
 	echo "\033[0;32mBuild took $$((STOP-START)) seconds\033[0m"; \
 
+init-framework:	## Initialize a new project with the specified framework
+	@if [ -z "${CREATE_COMMAND}" ]; then \
+		echo "\033[0;31mError: CREATE_COMMAND is not set. Please provide a CREATE_COMMAND.\033[0m"; \
+		echo "Example: make init-custom CREATE_COMMAND=\"npx create-react-app ${PROJECT_NAME}\""; \
+		exit 1; \
+	fi; \
+	make build; \
+	docker run -it -d -v ./:/app --name ${IMAGE_NAME} ${IMAGE_NAME} sh; \
+	echo "\033[0;33mInitializing project with command:\033[0m ${CREATE_COMMAND}"; \
+	docker exec -it ${IMAGE_NAME} sh -c "${CREATE_COMMAND}"; \
+	docker rm -f ${IMAGE_NAME}; \
+	make build-smart;
+
 init-next:	## Initialize a new React App with Next.js (App Router)
-	@make build
-	@docker run -it -d -v ./:/app --name ${IMAGE_NAME} ${IMAGE_NAME} sh
-	@docker exec -it ${IMAGE_NAME} sh -c "npx create-next-app@latest ${PROJECT_NAME}"
-	@docker rm -f ${IMAGE_NAME}
-	@make build-smart
+	@make init-framework CREATE_COMMAND="npx create-next-app@latest ${PROJECT_NAME}"
 
 init-react:	## Initialize a new React App with React Router (v7)
-	@make build
-	@docker run -it -d -v ./:/app --name ${IMAGE_NAME} ${IMAGE_NAME} sh
-	@docker exec -it ${IMAGE_NAME} sh -c "npx create-react-router@latest ${PROJECT_NAME} --no-git-init --no-install"
-	@docker rm -f ${IMAGE_NAME}
-	@make build-smart
+	@make init-framework CREATE_COMMAND="npx create-react-router@latest ${PROJECT_NAME} --no-git-init --no-install"
 
 init-expo:	## Initialize a new React App with Expo (for native apps)
-	@make build
-	@docker run -it -d -v ./:/app --name ${IMAGE_NAME} ${IMAGE_NAME} sh
-	@docker exec -it ${IMAGE_NAME} sh -c "npx create-expo-app@latest ${PROJECT_NAME}"
-	@docker rm -f ${IMAGE_NAME}
-	@make build-smart
+	@make init-framework CREATE_COMMAND="npx create-expo-app@latest ${PROJECT_NAME}"
 
 init-vue:	## Initialize a new Vue App
-	@make build
-	@docker run -it -d -v ./:/app --name ${IMAGE_NAME} ${IMAGE_NAME} sh
-	@docker exec -it ${IMAGE_NAME} sh -c "npm create vue@latest ${PROJECT_NAME}"
-	@docker rm -f ${IMAGE_NAME}
-	@make build-smart
+	@make init-framework CREATE_COMMAND="npm create vue@latest ${PROJECT_NAME}"
+
+init-vite:	## Initialize a new Vite App
+	@make init-framework CREATE_COMMAND="npm create vite@latest ${PROJECT_NAME}"
 
 up:	## Start dockers from docker composer
 	@$(call detect_ports); \
