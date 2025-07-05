@@ -1,340 +1,93 @@
-# Frontend Dockerized Template
+# Frontend Dockerized 🚀
 
-🚀 A comprehensive Docker-based development environment for modern JavaScript frameworks with intelligent port detection and multi-framework support. This template provides a containerized setup that ensures consistent development environments across different machines while automatically configuring ports based on your chosen framework.
+![GitHub release](https://img.shields.io/github/release/varunreddy8801/frontend-dockerized.svg)
+![Docker](https://img.shields.io/badge/Docker-%230db7ed.svg?logo=docker&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-%23323330.svg?logo=javascript&logoColor=F7DF1E)
 
-## ✨ Features
+Welcome to the **Frontend Dockerized** repository! This project provides a comprehensive Docker-based development environment tailored for modern JavaScript frameworks. With intelligent port detection and support for multiple frameworks, you can streamline your development process and enhance your productivity.
 
-- 🐳 **Docker-based development environment** - Consistent setup across all machines
-- 🧠 **Intelligent framework detection** - Automatically detects and configures your framework
-- ⚛️ **Multiple framework support**:
-  - **Next.js** (App Router) - Port 3000
-  - **React** (with React Router v7) - Port 5173
-  - **Expo** (React Native) - Port 8081
-  - **Vue.js** - Port 5173
-  - **Vite** - Port 5173
-  - **Custom frameworks** - Port 8080
-- 🎯 **Smart port management** - No manual port configuration needed
-- 🔧 **Make-based workflow** - Simple commands for all operations
-- � **Hot reload support** - Instant development feedback
-- 👤 **Non-root user setup** - Secure container execution
-- 📦 **Volume mounting** - Persistent development files
-- 🛠️ **Extensible architecture** - Easy to add new frameworks
+## Table of Contents
 
-## 🎯 Smart Port Management
+- [Introduction](#introduction)
+- [Features](#features)
+- [Supported Frameworks](#supported-frameworks)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Releases](#releases)
+- [Contributing](#contributing)
+- [License](#license)
 
-**Zero configuration required!** The template automatically detects your framework and configures the appropriate ports:
+## Introduction
 
-| Framework | Default Port | Detection Method | Status |
-|-----------|--------------|------------------|--------|
-| Next.js   | 3000         | `"next"` dependency | ✅ Fully Supported |
-| Expo      | 8081         | `"expo"` or `"@expo/"` | ✅ Fully Supported |
-| React     | 5173         | `"react"` (without Next.js) | ✅ Fully Supported |
-| Vue.js    | 5173         | `"vue"` dependency | ✅ Fully Supported |
-| Vite      | 5173         | `"vite"` dependency | ✅ Fully Supported |
-| **Custom** | **8080**     | **Unknown framework** | ✅ **Supported via `init-framework`** |
+Frontend Dockerized aims to simplify the setup of development environments for popular JavaScript frameworks. Whether you're working with React, Vue, or Next.js, this tool can help you get started quickly without the hassle of manual configurations. 
 
-### How It Works
+## Features
 
-When you run `make up`, the system will:
-1. 📝 Scan your `package.json` for framework dependencies
-2. 🔍 Detect the framework type automatically
-3. ⚙️ Configure appropriate ports without manual intervention
-4. 🚀 Start your development server with the correct configuration
+- **Multi-Framework Support**: Easily switch between different JavaScript frameworks.
+- **Intelligent Port Detection**: Automatically detects and assigns ports to avoid conflicts.
+- **Docker Compose Integration**: Simplifies the management of multi-container Docker applications.
+- **Easy Setup**: Get started with minimal configuration.
+- **Consistent Development Environment**: Ensure that your app runs the same way on all machines.
 
-**Example output:**
-```bash
-$ make up
-Detected framework: next (port: 3000)
-Using ports: Host: 3000 -> Container: 3000
-Soon your project will be available at http://localhost:3000
-```
+## Supported Frameworks
 
-## 📋 Prerequisites
+This project supports a variety of modern JavaScript frameworks, including:
 
-- [Docker](https://docs.docker.com/get-docker/) (with Docker Compose v2+)
-- [Make](https://www.gnu.org/software/make/) (usually pre-installed on Linux/macOS)
+- React (react, react-js, react-router, reactjs, reactnative)
+- Vue (vue-js, vuejs)
+- Next.js (next, next-js, nextjs)
+- Vite (vite, vite-js, vitejs)
+- Expo (expo)
 
-## 🚀 Quick Start
+## Getting Started
 
-### 1. Clone or use this template
+To get started with **Frontend Dockerized**, you will need to have Docker and Docker Compose installed on your machine. If you haven't installed them yet, please follow the official installation guides for [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
 
-```bash
-git clone <repository-url>
-cd react-dockerized
-```
+Once you have Docker and Docker Compose set up, you can download the latest release from the [Releases section](https://github.com/varunreddy8801/frontend-dockerized/releases). 
 
-### 2. Configure your project (optional)
+You can also execute the necessary files to set up your environment.
 
-Edit the `.env` file to customize your project settings:
+## Usage
 
-```env
-IMAGE_NAME=frontend-dockerized-app
-PROJECT_NAME=my_project
-NODE_ENV=development
-```
-
-### 3. Initialize your application
-
-Choose one of the predefined frameworks:
-
-**For Next.js (recommended for web apps):**
-
-```bash
-make init-next
-```
-
-**For React Router (traditional React apps):**
-
-```bash
-make init-react
-```
-
-**For Expo (React Native apps):**
-
-```bash
-make init-expo
-```
-
-**For Vue.js applications:**
-
-```bash
-make init-vue
-```
-
-**For Vite applications:**
-
-```bash
-make init-vite
-```
-
-### 4. Start the development server
-
-```bash
-make up
-```
-
-### 5. Open your application
-
-Navigate to the automatically detected port in your browser (depending on your framework).
-
-## 🔧 Custom Framework Support
-
-For frameworks not directly supported, use the `init-framework` command with a custom create command:
-
-### Syntax
-
-```bash
-make init-framework CREATE_COMMAND="<your-custom-command>"
-```
-
-### Examples
-
-**Create a Svelte application:**
-
-```bash
-make init-framework CREATE_COMMAND="npm create svelte@latest my_project"
-```
-
-**Create a Remix application:**
-
-```bash
-make init-framework CREATE_COMMAND="npx create-remix@latest my_project"
-```
-
-**Create a Nuxt.js application:**
-
-```bash
-make init-framework CREATE_COMMAND="npx nuxi@latest init my_project"
-```
-
-**Note:** Custom frameworks will default to port **8080**. The development server will be available at [http://localhost:8080](http://localhost:8080).
-
-## 📖 Available Commands
-
-Run `make help` to see all available commands with descriptions.
-
-### Example npm commands
-
-```bash
-# Install packages
-make npm install lodash
-
-# Install dev dependencies - note about double `--`!
-make npm install typescript -- --save-dev
-
-# Run custom scripts
-make npm run build
-
-# Check versions
-make npm list
-```
-
-## 🛠️ Development Workflow
-
-### Getting Started
-
-1. **Initialize your project:**
+1. **Clone the Repository**: Start by cloning the repository to your local machine.
 
    ```bash
-   make init-next  # or any other supported framework
+   git clone https://github.com/varunreddy8801/frontend-dockerized.git
+   cd frontend-dockerized
    ```
 
-2. **Start development:**
+2. **Download the Latest Release**: Visit the [Releases section](https://github.com/varunreddy8801/frontend-dockerized/releases) to download the latest version. 
+
+3. **Run Docker Compose**: Use the following command to start your development environment:
 
    ```bash
-   make up
+   docker-compose up
    ```
 
-3. **Install additional packages:**
+4. **Access Your Application**: Open your web browser and navigate to the appropriate URL, usually `http://localhost:3000` or the port specified in your Docker configuration.
 
-   ```bash
-   make npm install <package-name>
-   ```
+5. **Switch Frameworks**: To switch between frameworks, modify the `docker-compose.yml` file to reflect your desired setup.
 
-4. **Run custom npm scripts:**
+## Releases
 
-   ```bash
-   make npm run <script-name>
-   ```
+For the latest updates, features, and bug fixes, check out the [Releases section](https://github.com/varunreddy8801/frontend-dockerized/releases). Here, you can download the necessary files and execute them to keep your environment up to date.
 
-5. **Access container for debugging:**
+## Contributing
 
-   ```bash
-   make shell
-   ```
+We welcome contributions from the community! If you have suggestions or improvements, please follow these steps:
 
-6. **Stop development:**
+1. Fork the repository.
+2. Create a new branch for your feature or fix.
+3. Make your changes and commit them.
+4. Push your branch to your forked repository.
+5. Open a pull request to the main repository.
 
-   ```bash
-   make down
-   ```
+Please ensure that your code adheres to the project's coding standards and includes appropriate tests.
 
-## 📁 Project Structure
+## License
 
-After initialization, your project will have the following structure:
-
-```text
-react-dockerized/
-├── .env                    # Environment configuration
-├── compose.yaml           # Docker Compose services
-├── Dockerfile             # Container definition
-├── Makefile              # Development commands
-├── LICENSE               # MIT License
-├── README.md             # This file
-├── docker/               # Docker utilities
-│   ├── detect-framework.sh   # Framework detection script
-│   ├── entrypoint.sh         # Container startup script
-│   └── port-config.sh        # Port configuration logic
-└── <your-project>/       # Your application (created after init)
-    ├── package.json
-    ├── src/
-    └── ... (framework-specific files)
-```
-
-## ⚙️ Configuration
-
-### Environment Variables (.env)
-
-| Variable | Description | Default Value |
-|----------|-------------|---------------|
-| `IMAGE_NAME` | Docker container name | `react-dockerized-app` |
-| `PROJECT_NAME` | Directory name for your project | `my_project` |
-| `NODE_ENV` | Node.js environment | `development` |
-| `PORT_HOST` | Host port (auto-detected) | Framework-dependent |
-| `PORT_CONTAINER` | Container port (auto-detected) | Framework-dependent |
-
-### Port Configuration
-
-Ports are automatically detected, but you can override them by modifying the port mapping in `compose.yaml`:
-
-```yaml
-ports:
-  - "3001:${PORT_CONTAINER}"  # Change 3001 to your desired host port
-```
-
-### Custom Framework Configuration
-
-When using `init-framework` with custom commands, the system will:
-
-1. Use port **8080** as default for unknown frameworks
-2. Attempt to detect the framework from the generated `package.json`
-3. Update port configuration accordingly after detection
-
-## 🔧 Troubleshooting
-
-### Permission Issues
-
-If you encounter permission issues, the Dockerfile creates a non-root user with UID 1000. Make sure your host user has the same UID or adjust the Dockerfile accordingly:
-
-```bash
-# Check your UID
-id -u
-
-# If different from 1000, modify Dockerfile:
-# ARG USER_UID=<your-uid>
-```
-
-### Container Not Starting
-
-1. **Check if the port is already in use:**
-
-   ```bash
-   lsof -i :3000  # or your framework's port
-   ```
-
-2. **Ensure Docker is running:**
-
-   ```bash
-   docker --version
-   docker compose version
-   ```
-
-3. **Check container logs:**
-
-   ```bash
-   docker logs react-dockerized-app
-   ```
-
-### Project Not Found
-
-If the project directory doesn't exist, run one of the init commands first:
-
-```bash
-make init-next  # or init-react, init-expo, init-vue, init-vite
-```
-
-### Framework Not Detected
-
-If your framework isn't detected properly:
-
-1. Check if the framework dependency is in `package.json`
-2. Try rebuilding with framework detection:
-
-   ```bash
-   make build-smart
-   ```
-
-3. For custom frameworks, ensure your command creates a valid `package.json`
-
-## 🤝 Contributing
-
-We welcome contributions to improve this template! Here's how you can help:
-
-For detailed contributing guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## 📄 License
-
-This project is open source and available under the **MIT License**. See the [LICENSE](LICENSE) file for the full license text.
-
-You are free to:
-
-- ✅ Use this project commercially
-- ✅ Modify and distribute
-- ✅ Include in private projects
-- ✅ Use for educational purposes
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ---
 
-Happy coding! 🚀
-
-If you find this template helpful, please consider giving it a ⭐!
+Thank you for checking out **Frontend Dockerized**! We hope this tool helps you create efficient and consistent development environments for your JavaScript projects. Happy coding!
